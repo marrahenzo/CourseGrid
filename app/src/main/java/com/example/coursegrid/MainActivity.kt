@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import com.example.coursegrid.data.DataSource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,9 +41,9 @@ class MainActivity : ComponentActivity() {
             CourseGridTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = Color.White
                 ) {
-                    CourseGrid()
+                    CourseGrid(topics = DataSource().loadTopics())
                 }
             }
         }
@@ -46,8 +51,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CourseGrid(modifier: Modifier = Modifier) {
-
+fun CourseGrid(topics: List<Topic>, modifier: Modifier = Modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.padding(8.dp).background(Color(0x0092AFFF))
+    ) {
+        items(topics) { topic ->
+            CourseTopic(topic = topic)
+        }
+    }
 }
 
 @Composable
@@ -56,6 +70,7 @@ fun CourseTopic(topic: Topic, modifier: Modifier = Modifier) {
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .height(68.dp)
+            .background(color = Color(0xFF0F1474))
     ) {
         Image(
             painter = painterResource(id = topic.image),
@@ -64,24 +79,26 @@ fun CourseTopic(topic: Topic, modifier: Modifier = Modifier) {
         )
         Column(
             modifier = modifier
-                .background(color = Color(200, 200, 200))
                 .fillMaxHeight()
                 .padding(top = 16.dp, end = 16.dp)
         ) {
             Text(
                 text = stringResource(id = topic.title),
                 style = MaterialTheme.typography.labelLarge,
+                color = Color.White,
                 modifier = modifier.padding(start = 16.dp, bottom = 8.dp)
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_grain),
                     contentDescription = null,
+                    tint = Color.White,
                     modifier = modifier.padding(start = 16.dp)
                 )
                 Text(
                     text = topic.amountOfCourses.toString(),
                     style = MaterialTheme.typography.labelLarge,
+                    color = Color.White,
                     modifier = modifier.padding(start = 8.dp)
                 )
             }
@@ -105,6 +122,6 @@ fun CourseTopicPreview() {
 @Composable
 fun CourseGridPreview() {
     CourseGridTheme {
-        CourseGrid()
+        CourseGrid(topics = DataSource().loadTopics())
     }
 }

@@ -14,4 +14,13 @@
     <string name="painting">Painting</string>
     <string name="photography">Photography</string>
     <string name="tech">Tech</string>
+    <string name="webdev">Web Dev</string>
+    <string name="mobiledev">Mobile Dev</string>
+    <string name="programming">Coding</string>
+    <string name="videoediting">Video Editing</string>
+    <string name="threedmodeling">3D Modeling</string>
+    <string name="electronics">Electronics</string>
+    <string name="carpentry">Carpentry</string>
+    <string name="climatology">Climatology</string>
+    <string name="audio">Audio</string>
 </resources>
